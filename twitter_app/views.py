@@ -2,15 +2,21 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic.edit import CreateView
 from django.contrib.auth.models import User
+from .models import Tweet
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.views.generic.list import ListView
 
 
-class MainPageView(View):
-    def get(self, request):
-        ctx = {}
-        return render(request, 'twitter_app/index.html', ctx)
+class MainPageView(ListView):
+    model = Tweet
+    template_name = 'twitter_app/index.html'
 
+# class MainPageView(View):
+#     def get(self, request):
+#         tweets = Tweet.objects.all()
+#         ctx = {}
+#         return render(request, 'twitter_app/index.html', ctx)
 
 class RegisterView(CreateView):
     model = User
