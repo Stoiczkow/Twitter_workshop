@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from twitter_app.views import MainPageView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', MainPageView.as_view())
+    path('', MainPageView.as_view()),
+    path('login/', auth_views.login, name='login')
 ]
