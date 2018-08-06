@@ -36,12 +36,19 @@
 
                         <!-- Modal body -->
                         <div class="modal-body">
-                            Modal body..
+                            <form id="tweet_form" method="post">
+                                {% csrf_token %}
+                            <div class="form-group">
+                                <textarea class="form-control" rows="5" id="comment" name="tweet" maxlength="140"></textarea>
+
+                            </div>
+                            </form>
                         </div>
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info" form="tweet_form">Tweet</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         </div>
 
                     </div>
