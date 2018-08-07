@@ -1,23 +1,31 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.models import User
-from .models import Tweet
+from .models import Tweet, Comment
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic.list import ListView
 from .forms import TweetForm
 
-# class MainPageView(ListView):
-#     model = Tweet
-#     template_name = 'twitter_app/index.html'
 
 class MainPageView(View):
     def get(self, request):
-        tweets = Tweet.objects.all()
+        tweets = Tweet.objects.all().order_by('-creation_date')
+        comments = Comment.objects.all().order_by('-creation_date')
         form = TweetForm()
         ctx = {'tweets': tweets,
-               'form': form}
+               'form': form,
+               'comments': {}}
+
+        for tweet in tweets:
+            for comment in comments:
+                if comment.tweet == tweet:
+                    try:
+                        ctx['comments'][tweet.pk] += 1
+                    except:
+                        ctx['comments'][tweet.pk] = 1
+
         return render(request, 'twitter_app/index.html', ctx)
 
     def post(self, request):
@@ -36,9 +44,14 @@ class RegisterView(CreateView):
     def post(self, request):
         user, created = User.objects.get_or_create(username=request.POST['username'])
         if created:
-            # user was created
-            # set the password here
             user.set_password(request.POST['password'])
             user.email = request.POST['email']
             user.save()
             return HttpResponseRedirect(reverse('login'))
+
+
+class EditProfile(UpdateView):
+    model = User
+    fields = ['first_name', 'last_name']
+    template_name = 'registration/user_update.html'
+    success_url = '/'
