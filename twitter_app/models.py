@@ -21,3 +21,11 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
+
+
+class PrivateMessage(models.Model):
+    text = models.TextField()
+    sent_date = models.DateTimeField(auto_now_add=True)
+    received_date = models.DateTimeField(null=True)
+    sender = models.ForeignKey(User, on_delete=True, related_name='sender')
+    recipient = models.ForeignKey(User, on_delete=True, related_name='recipient')
