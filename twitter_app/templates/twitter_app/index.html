@@ -89,7 +89,21 @@
             <span class="badge badge-pill badge-primary">{{ tweet.user.username }}</span>
             <span class="badge badge-pill badge-info float-right">{{ tweet.creation_date|date:"d.m.Y G:i" }}</span>
             <p class="card-text">{{ tweet.text }}</p>
-            <a href="#"><span class="badge badge-pill badge-secondary">Comments <span class="badge badge-light">{% for key, value in comments.items %}{% if tweet.pk == key %}{{ value }}{% endif %}{% endfor %}</span></span></a>
+            <a href="#{{ tweet.pk }}" data-toggle="collapse"><span class="badge badge-pill badge-secondary">Comments <span class="badge badge-light">{% for key, value in comments.items %}{% if tweet.pk == key %}{{ value }} {% else %} 0 {% endif %}{% endfor %}</span></span></a>
+
+
+      <div id="{{ tweet.pk }}" class="collapse">
+        <ul class="list-group list-group-flush ">
+            {% for comm in comments_text %}
+                {% if tweet == comm.tweet %}
+                    <li class="list-group-item bg-light text-dark">
+            {{ comm.text }} <span class="badge badge-pill badge-primary">by {{ comm.user.username }} {{ comm.creation_date|date:"d.m.Y G:i" }}</span></li>
+                {% endif %}
+
+            {% endfor %}
+            </ul>
+      </div>
+
         </div>
             <div>
           </li>

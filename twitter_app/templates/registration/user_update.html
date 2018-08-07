@@ -11,13 +11,16 @@
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
-            {% render_field form.first_name|add_class:"form-control" placeholder="Edit first name" %}
+            {% render_field form.bio|add_class:"form-control" placeholder="Edit biography" %}
         </div>
 
         <div class="form-group">
-            {% render_field form.last_name|add_class:"form-control" placeholder="Edit last name" %}
+            {% render_field form.location|add_class:"form-control" placeholder="Edit location" %}
         </div>
 
+        <div class="form-group">
+            {% render_field form.birth_date|add_class:"form-control" placeholder="Edit date of birth" type="date" %}
+        </div>
         <button type="submit" class="btn btn-primary">Update</button>
 
     </form>

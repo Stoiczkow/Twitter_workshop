@@ -2,10 +2,9 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.models import User
-from .models import Tweet, Comment
+from .models import Tweet, Comment, Profile
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from django.views.generic.list import ListView
 from .forms import TweetForm
 
 
@@ -16,7 +15,8 @@ class MainPageView(View):
         form = TweetForm()
         ctx = {'tweets': tweets,
                'form': form,
-               'comments': {}}
+               'comments': {},
+               'comments_text': comments}
 
         for tweet in tweets:
             for comment in comments:
@@ -51,7 +51,7 @@ class RegisterView(CreateView):
 
 
 class EditProfile(UpdateView):
-    model = User
-    fields = ['first_name', 'last_name']
+    model = Profile
+    fields = ['bio', 'location', 'birth_date']
     template_name = 'registration/user_update.html'
     success_url = '/'
