@@ -12,6 +12,7 @@ class MainPageView(View):
     def get(self, request):
         tweets = Tweet.objects.all().order_by('-creation_date')
         comments = Comment.objects.all().order_by('-creation_date')
+
         form = TweetForm()
         ctx = {'tweets': tweets,
                'form': form,
@@ -70,3 +71,11 @@ class PrivateMessageView(View):
                                                recipient=User.objects.get(pk=request.POST['recipient']),
                                                sender=request.user)
             return HttpResponseRedirect(reverse('index'))
+
+
+class Inbox(View):
+    def get(self, request):
+        recieved = PrivateMessage.objects.filter(recipient=request.user)
+        sent = PrivateMessage.objects.filter(sender=request.user)
+        ctx = {}
+        return render(request, 'twitter_app/inbox.html', ctx)
