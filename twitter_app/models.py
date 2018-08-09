@@ -26,6 +26,6 @@ class Profile(models.Model):
 class PrivateMessage(models.Model):
     text = models.TextField()
     sent_date = models.DateTimeField(auto_now_add=True)
-    received_date = models.DateTimeField(null=True)
     sender = models.ForeignKey(User, on_delete=True, related_name='sender')
     recipient = models.ForeignKey(User, on_delete=True, related_name='recipient')
+    is_read = models.BooleanField(default=False)

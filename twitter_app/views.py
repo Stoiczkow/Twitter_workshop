@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.models import User
-from .models import Tweet, Comment, Profile
+from .models import Tweet, Comment, Profile, PrivateMessage
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from .forms import TweetForm
+from .forms import TweetForm, PrivateMessageForm
 
 
 class MainPageView(View):
@@ -55,3 +55,18 @@ class EditProfile(UpdateView):
     fields = ['bio', 'location', 'birth_date']
     template_name = 'registration/user_update.html'
     success_url = '/'
+
+
+class PrivateMessageView(View):
+    def get(self, request):
+        form = PrivateMessageForm()
+        ctx = {'form': form}
+        return render(request, 'twitter_app/pm_form.html', ctx)
+
+    def post(self, request):
+        form = PrivateMessageForm(request.POST)
+        if form.is_valid():
+            pm = PrivateMessage.objects.create(text=request.POST['text'],
+                                               recipient=User.objects.get(pk=request.POST['recipient']),
+                                               sender=request.user)
+            return HttpResponseRedirect(reverse('index'))

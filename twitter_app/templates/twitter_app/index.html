@@ -41,7 +41,7 @@
 
                         <!-- Modal body -->
                         <div class="modal-body">
-                            <form id="tweet_form" method="post">
+                            <form id="tweet_form" method="post" action="/">
                                 {% csrf_token %}
                                 <div class="form-group">
                                     {% render_field form.text|add_class:"form-control" placeholder="Enter tweet" maxlength="140"%}
@@ -51,13 +51,18 @@
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-info" form="tweet_form">Tweet</button>
+                            <button type="submit" class="btn btn-info" form="tweet_form" name="tweet">Tweet</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         </div>
 
                     </div>
                 </div>
             </div>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link" href="{% url 'prv_msg' %}">
+                Send private message
+            </a>
         </li>
     </ul>
     <ul class="navbar-nav ml-auto">

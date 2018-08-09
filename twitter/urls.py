@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from twitter_app.views import MainPageView, RegisterView, EditProfile
+from twitter_app.views import MainPageView, RegisterView, EditProfile, PrivateMessageView
 from django.contrib.auth import views as auth_views
 
 
@@ -26,4 +26,5 @@ urlpatterns = [
     path('login/', auth_views.login, name='login'),
     path('logout/', auth_views.logout, {'next_page': '/login/'}, name='logout'),
     path('edit_profile/<pk>', EditProfile.as_view(), name='edit_profile'),
+    path('prv_msg/', PrivateMessageView.as_view(), name='prv_msg'),
 ]
