@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .models import Tweet, Comment, Profile, PrivateMessage
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from .forms import TweetForm, PrivateMessageForm
+from .forms import TweetForm, PrivateMessageForm, CommentForm
 
 
 class MainPageView(View):
@@ -14,10 +14,12 @@ class MainPageView(View):
         comments = Comment.objects.all().order_by('-creation_date')
 
         form = TweetForm()
+        comment_form = CommentForm()
         ctx = {'tweets': tweets,
                'form': form,
                'comments': {},
-               'comments_text': comments}
+               'comments_text': comments,
+               'comment_form': comment_form}
 
         for tweet in tweets:
             for comment in comments:
@@ -53,7 +55,7 @@ class RegisterView(CreateView):
 
 class EditProfile(UpdateView):
     model = Profile
-    fields = ['bio', 'location', 'birth_date']
+    fields = ['bio', 'location', 'birth_date', 'avatar']
     template_name = 'registration/user_update.html'
     success_url = '/'
 
@@ -77,5 +79,6 @@ class Inbox(View):
     def get(self, request):
         recieved = PrivateMessage.objects.filter(recipient=request.user)
         sent = PrivateMessage.objects.filter(sender=request.user)
-        ctx = {}
+        ctx = {'recieved': recieved,
+               'sent': sent}
         return render(request, 'twitter_app/inbox.html', ctx)

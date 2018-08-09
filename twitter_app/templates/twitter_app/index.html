@@ -52,7 +52,7 @@
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-info" form="tweet_form" name="tweet">Tweet</button>
+                            <button type="submit" class="btn btn-info" form="tweet_form" name="tweet_f">Tweet</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         </div>
 
@@ -107,6 +107,15 @@
 
       <div id="{{ tweet.pk }}" class="collapse">
         <ul class="list-group list-group-flush ">
+            <li class="list-group-item bg-light text-dark">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {% render_field comment_form.text|add_class:"form-control" placeholder="Enter comment" maxlength="140" rows="1" %}
+                </div>
+                <button type="submit" class="btn btn-info" name="comment_f">Add comment</button>
+            </form>
+            </li>
             {% for comm in comments_text %}
                 {% if tweet == comm.tweet %}
                     <li class="list-group-item bg-light text-dark">
