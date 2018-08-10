@@ -17,7 +17,7 @@
         <div class="card-body">
             <ul class="list-group">
                 {% for msg in recieved %}
-                <a href="#" data-toggle="modal" data-target="#{{ msg.pk }}r"><li class="list-group-item active">{{ msg.title }} <span class="badge badge-pill badge-secondary">on {{ msg.sent_date|date:"d.m.Y G:i" }} from {{ msg.sender }}</span></li></a>
+                <a href="#" data-toggle="modal" data-target="#{{ msg.pk }}r"><li class="list-group-item {% if not msg.is_read %}active{% endif %}" value="{{ msg.pk }}">{{ msg.title }} <span class="badge badge-pill badge-secondary">on {{ msg.sent_date|date:"d.m.Y G:i" }} from {{ msg.sender }}</span></li></a>
                 <div class="modal fade" id="{{ msg.pk }}r">
                 <div class="modal-dialog">
                     <div class="modal-content">

@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.models import User
 from .models import Tweet, Comment, Profile, PrivateMessage
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from .forms import TweetForm, PrivateMessageForm, CommentForm
 
 
@@ -90,3 +90,13 @@ class Inbox(View):
                'sent': sent,
                'form': form}
         return render(request, 'twitter_app/inbox.html', ctx)
+
+
+class ChangeMsgStatus(View):
+    def get(self, request):
+        print(request.GET['id'])
+        message = PrivateMessage.objects.get(pk=request.GET['id'])
+        message.is_read = True
+        message.save()
+        return HttpResponse(status=200)
+
