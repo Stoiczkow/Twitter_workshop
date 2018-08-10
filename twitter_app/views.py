@@ -75,6 +75,7 @@ class PrivateMessageView(View):
         form = PrivateMessageForm(request.POST)
         if form.is_valid():
             pm = PrivateMessage.objects.create(text=request.POST['text'],
+                                               title=request.POST['title'],
                                                recipient=User.objects.get(pk=request.POST['recipient']),
                                                sender=request.user)
             return HttpResponseRedirect(reverse('index'))
@@ -82,8 +83,10 @@ class PrivateMessageView(View):
 
 class Inbox(View):
     def get(self, request):
-        recieved = PrivateMessage.objects.filter(recipient=request.user)
-        sent = PrivateMessage.objects.filter(sender=request.user)
+        recieved = PrivateMessage.objects.filter(recipient=request.user).order_by('-sent_date')
+        sent = PrivateMessage.objects.filter(sender=request.user).order_by('-sent_date')
+        form = TweetForm()
         ctx = {'recieved': recieved,
-               'sent': sent}
+               'sent': sent,
+               'form': form}
         return render(request, 'twitter_app/inbox.html', ctx)

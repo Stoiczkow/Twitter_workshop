@@ -17,7 +17,31 @@
         <div class="card-body">
             <ul class="list-group">
                 {% for msg in recieved %}
-                <li class="list-group-item active">{{ msg.title }}</li>
+                <a href="#" data-toggle="modal" data-target="#{{ msg.pk }}r"><li class="list-group-item active">{{ msg.title }} <span class="badge badge-pill badge-secondary">on {{ msg.sent_date|date:"d.m.Y G:i" }} from {{ msg.sender }}</span></li></a>
+                <div class="modal fade" id="{{ msg.pk }}r">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{ msg.title }}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            {{ msg.text }}
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-info" name="msg_f">Reply</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
                 {% endfor %}
             </ul>
         </div>
@@ -33,7 +57,30 @@
         <div class="card-body">
             <ul class="list-group">
                 {% for msg in sent %}
-                <li class="list-group-item">{{ msg.title }}</li>
+                <a href="#" data-toggle="modal" data-target="#{{ msg.pk }}s"><li class="list-group-item">{{ msg.title }} <span class="badge badge-pill badge-secondary">on {{ msg.sent_date|date:"d.m.Y G:i" }} to {{ msg.recipient }}</span></li></a>
+                <div class="modal fade" id="{{ msg.pk }}s">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{ msg.title }}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            {{ msg.text }}
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
                 {% endfor %}
             </ul>
         </div>
