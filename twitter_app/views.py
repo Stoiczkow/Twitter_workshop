@@ -34,8 +34,13 @@ class MainPageView(View):
     def post(self, request):
         form = TweetForm(request.POST)
         if form.is_valid():
-            tweet = Tweet.objects.create(text=request.POST['text'],
-                                         user=request.user)
+            if 'tweet_f' in request.POST:
+                tweet = Tweet.objects.create(text=request.POST['text'],
+                                             user=request.user)
+            elif 'comment_f' in request.POST:
+                comment = Comment.objects.create(text=request.POST['text'],
+                                                 user=request.user,
+                                                 tweet=Tweet.objects.get(pk=request.POST['comment_f']))
             return HttpResponseRedirect(reverse('index'))
 
 

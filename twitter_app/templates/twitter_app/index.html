@@ -113,7 +113,7 @@
                 <div class="form-group">
                     {% render_field comment_form.text|add_class:"form-control" placeholder="Enter comment" maxlength="140" rows="1" %}
                 </div>
-                <button type="submit" class="btn btn-info" name="comment_f">Add comment</button>
+                <button type="submit" class="btn btn-info" name="comment_f" value="{{ tweet.pk }}">Add comment</button>
             </form>
             </li>
             {% for comm in comments_text %}
