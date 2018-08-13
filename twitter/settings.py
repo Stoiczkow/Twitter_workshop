@@ -125,5 +125,5 @@ STATICFILES_DIRS = (
 )
 
 STATIC_URL = '/static/'
-
+MEDIA_ROOT = 'Twitter_workshop'
 LOGIN_REDIRECT_URL = '/'

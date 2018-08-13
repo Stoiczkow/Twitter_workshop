@@ -12,6 +12,7 @@ class MainPageView(View):
     def get(self, request):
         tweets = Tweet.objects.all().order_by('-creation_date')
         comments = Comment.objects.all().order_by('-creation_date')
+        profiles = Profile.objects.all()
 
         form = TweetForm()
         comment_form = CommentForm()
@@ -19,7 +20,8 @@ class MainPageView(View):
                'form': form,
                'comments': {},
                'comments_text': comments,
-               'comment_form': comment_form}
+               'comment_form': comment_form,
+               'profiles': profiles}
 
         for tweet in tweets:
             for comment in comments:

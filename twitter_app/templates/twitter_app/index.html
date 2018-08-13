@@ -95,10 +95,22 @@
     </ul>
 </nav>
 {% block content %}
+{{ profiles.0 }}
 <div class="container col-6">
 {% for tweet in tweets %}
 <div class="media border p-3 inner">
-    <img src="img_avatar3.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+    {% for profile in profiles %}
+        {% if tweet.user == profile.user %}
+            <img src="{{ profile.get_img_url }}" alt="{{ tweet.user.username }}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+        {% endif %}
+
+    {% endfor %}
+
+    {% if tweet.user in profiles %}
+            <p>jest</p>
+        {% else %}
+            <p>nie ma</p>
+        {% endif %}
     <div class="media-body">
       <h4>{{ tweet.user.username }} <small><i>Posted on {{ tweet.creation_date|date:"d.m.Y G:i" }}</i></small></h4>
       <p>{{ tweet.text }}</p>
