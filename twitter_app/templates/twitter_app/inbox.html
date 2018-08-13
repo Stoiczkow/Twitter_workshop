@@ -35,7 +35,14 @@
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-info" name="msg_f">Reply</button>
+                            <div style="display:none">
+                                <form method="GET" id="reply_f" action="/prv_msg/">
+                                    <input name="title" value="{{ msg.title }}">
+                                    <input name="text" value="{{ msg.text }}">
+                                    <input name="recipient" value="{{ msg.sender.pk }}">
+                                </form>
+                            </div>
+                            <button type="submit" class="btn btn-info" name="msg_f" form="reply_f">Reply</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         </div>
 

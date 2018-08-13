@@ -67,7 +67,10 @@ class EditProfile(UpdateView):
 
 class PrivateMessageView(View):
     def get(self, request):
-        form = PrivateMessageForm()
+        if request.GET:
+            form = PrivateMessageForm(request.GET)
+        else:
+            form = PrivateMessageForm()
         ctx = {'form': form}
         return render(request, 'twitter_app/pm_form.html', ctx)
 
