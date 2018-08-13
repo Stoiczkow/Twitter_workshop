@@ -96,20 +96,15 @@
 </nav>
 {% block content %}
 
-<div class="container d-flex">
-  <ul class="list-group list-group-flush col-6 mx-auto">
-    {% for tweet in tweets %}
-      <li class="list-group-item">
-        <div class="card">
-        <div class="card-body">
-            <h4>{{ tweet.user.username }} <small class="float-right"><i>{{ tweet.creation_date|date:"d.m.Y G:i" }}</i></small></h4>
-            <p class="card-text">{{ tweet.text }}</p>
-            <a href="#{{ tweet.pk }}" data-toggle="collapse"><span class="badge badge-pill badge-secondary">Comments <span class="badge badge-light">{% if comments|get_item:tweet.pk %}{{ comments|get_item:tweet.pk }}{% else %}0{% endif %}</span></span></a>
+{% for tweet in tweets %}
+<div class="media border p-3">
+    <img src="img_avatar3.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+    <div class="media-body">
+      <h4>{{ tweet.user.username }} <small><i>Posted on {{ tweet.creation_date|date:"d.m.Y G:i" }}</i></small></h4>
+      <p>{{ tweet.text }}</p>
+      <a href="#{{ tweet.pk }}" data-toggle="collapse"><span class="badge badge-pill badge-secondary">Comments <span class="badge badge-light">{% if comments|get_item:tweet.pk %}{{ comments|get_item:tweet.pk }}{% else %}0{% endif %}</span></span></a>
 
-
-      <div id="{{ tweet.pk }}" class="collapse">
-        <ul class="list-group list-group-flush ">
-            <li class="list-group-item bg-light text-dark">
+        <div class="collapse" id="{{ tweet.pk }}">
             <form method="post">
                 {% csrf_token %}
                 <div class="form-group">
@@ -117,27 +112,32 @@
                 </div>
                 <button type="submit" class="btn btn-info" name="comment_f" value="{{ tweet.pk }}">Add comment</button>
             </form>
-            </li>
+
             {% for comm in comments_text %}
                 {% if tweet == comm.tweet %}
-                    <li class="list-group-item bg-light text-dark">
-            {{ comm.text }} <span class="badge badge-pill badge-primary">by {{ comm.user.username }} {{ comm.creation_date|date:"d.m.Y G:i" }}</span></li>
+                <div class="media p-3 " >
+                    <img src="img_avatar2.png" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">
+        <div class="media-body">
+          <h4>{{ comm.user.username }} <small><i>Posted on {{ comm.creation_date|date:"d.m.Y G:i" }}</i></small></h4>
+          <p>{{ comm.text }}</p>
+        </div>
+                </div>
+
                 {% endif %}
 
             {% endfor %}
-            </ul>
+            </div>
+
       </div>
 
-        </div>
-            <div>
-          </li>
-    {% empty %}
+    </div>
+  </div>
+
+{% empty %}
         <div class="card-body col-sm-4">
             <p class="card-text">No tweets yet.</p>
         </div>
-    {% endfor %}
-    </ul>
-</div>
+{% endfor %}
 {% endblock %}
 </body>
 </html>
