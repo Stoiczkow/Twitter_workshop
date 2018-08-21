@@ -101,12 +101,12 @@
 <div class="media border p-3 inner">
     {% for profile in profiles %}
         {% if tweet.user == profile.user %}
-            <img src="{{ profile.get_img_url }}" alt="{{ tweet.user.username }}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+            <a href="{% url 'profile_details' id=tweet.user.pk %}"><img src="{{ profile.get_img_url }}" alt="{{ tweet.user.username }}" class="mr-3 mt-3 rounded-circle" style="width:60px;"></a>
         {% endif %}
     {% endfor %}
 
     <div class="media-body">
-      <h4>{{ tweet.user.username }} <small><i>Posted on {{ tweet.creation_date|date:"d.m.Y G:i" }}</i></small></h4>
+        <h4><a href="{% url 'profile_details' id=tweet.user.pk %}" style="color: inherit; text-decoration: inherit">{{ tweet.user.username }}</a> <small><i>Posted on {{ tweet.creation_date|date:"d.m.Y G:i" }}</i></small></h4>
       <p>{{ tweet.text }}</p>
       <a href="#{{ tweet.pk }}" data-toggle="collapse"><span class="badge badge-pill badge-secondary">Comments <span class="badge badge-light">{% if comments|get_item:tweet.pk %}{{ comments|get_item:tweet.pk }}{% else %}0{% endif %}</span></span></a>
 

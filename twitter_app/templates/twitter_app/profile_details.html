@@ -14,10 +14,10 @@
       <p class="card-text">{{ profile.location }}</p>
       <h6 class="card-title">Birth date</h6>
       <p class="card-text">{{ profile.birth_date }}</p>
-      <form action="prv_msg" method="get" style="display:none">
+      <form method="GET" action="/prv_msg/" id="send_pm_p" style="display:none">
           <input name="recipient" value="{{ user_d.pk }}">
       </form>
-      <button type="submit" class="btn btn-primary">Send Private Message</button>
+      <button type="submit" class="btn btn-primary" form="send_pm_p">Send Private Message</button>
     </div>
   </div>
 </div>
