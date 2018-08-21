@@ -21,7 +21,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    avatar = models.ImageField(blank=True, upload_to='twitter_app/static/avatars')
+    avatar = models.ImageField(blank=True, upload_to='twitter_app/static/avatars', default='twitter_app/static/avatars/no_avatar.jpg')
 
     def get_img_url(self):
         return self.avatar.url[12:]

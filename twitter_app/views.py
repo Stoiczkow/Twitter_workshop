@@ -57,6 +57,7 @@ class RegisterView(CreateView):
             user.set_password(request.POST['password'])
             user.email = request.POST['email']
             user.save()
+            Profile.objects.create(user=user)
             return HttpResponseRedirect(reverse('login'))
 
 

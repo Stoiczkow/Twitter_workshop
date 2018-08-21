@@ -95,7 +95,7 @@
     </ul>
 </nav>
 {% block content %}
-{{ profiles.0 }}
+
 <div class="container col-6">
 {% for tweet in tweets %}
 <div class="media border p-3 inner">
@@ -103,14 +103,8 @@
         {% if tweet.user == profile.user %}
             <img src="{{ profile.get_img_url }}" alt="{{ tweet.user.username }}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
         {% endif %}
-
     {% endfor %}
 
-    {% if tweet.user in profiles %}
-            <p>jest</p>
-        {% else %}
-            <p>nie ma</p>
-        {% endif %}
     <div class="media-body">
       <h4>{{ tweet.user.username }} <small><i>Posted on {{ tweet.creation_date|date:"d.m.Y G:i" }}</i></small></h4>
       <p>{{ tweet.text }}</p>
@@ -128,8 +122,11 @@
             {% for comm in comments_text %}
                 {% if tweet == comm.tweet %}
                 <div class="media p-3 " >
-                    <img src="img_avatar2.png" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">
-        <div class="media-body">
+{% for profile in profiles %}
+        {% if tweet.user == profile.user %}
+            <img src="{{ profile.get_img_url }}" alt="{{ tweet.user.username }}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+        {% endif %}
+    {% endfor %}        <div class="media-body">
           <h4>{{ comm.user.username }} <small><i>Posted on {{ comm.creation_date|date:"d.m.Y G:i" }}</i></small></h4>
           <p>{{ comm.text }}</p>
         </div>
