@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from twitter_app.views import MainPageView, RegisterView, EditProfile, PrivateMessageView, Inbox, ChangeMsgStatus
+from twitter_app.views import (MainPageView, RegisterView, EditProfile,
+                               PrivateMessageView, Inbox, ChangeMsgStatus,
+                               ProfileDetailsView)
 from django.contrib.auth import views as auth_views
 
 
@@ -29,4 +31,5 @@ urlpatterns = [
     path('prv_msg/', PrivateMessageView.as_view(), name='prv_msg'),
     path('inbox/', Inbox.as_view(), name='inbox'),
     path('change_msg/', ChangeMsgStatus.as_view()),
+    path('profile/<id>', ProfileDetailsView.as_view(), name='profile_details'),
 ]

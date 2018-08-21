@@ -6,6 +6,8 @@ from .models import Tweet, Comment, Profile, PrivateMessage
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from .forms import TweetForm, PrivateMessageForm, CommentForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 class MainPageView(View):
@@ -61,14 +63,14 @@ class RegisterView(CreateView):
             return HttpResponseRedirect(reverse('login'))
 
 
-class EditProfile(UpdateView):
+class EditProfile(LoginRequiredMixin, UpdateView):
     model = Profile
     fields = ['bio', 'location', 'birth_date', 'avatar']
     template_name = 'registration/user_update.html'
     success_url = '/'
 
 
-class PrivateMessageView(View):
+class PrivateMessageView(LoginRequiredMixin, View):
     def get(self, request):
         if request.GET:
             form = PrivateMessageForm(request.GET)
@@ -87,7 +89,7 @@ class PrivateMessageView(View):
             return HttpResponseRedirect(reverse('index'))
 
 
-class Inbox(View):
+class Inbox(LoginRequiredMixin, View):
     def get(self, request):
         recieved = PrivateMessage.objects.filter(recipient=request.user).order_by('-sent_date')
         sent = PrivateMessage.objects.filter(sender=request.user).order_by('-sent_date')
@@ -100,9 +102,16 @@ class Inbox(View):
 
 class ChangeMsgStatus(View):
     def get(self, request):
-        print(request.GET['id'])
         message = PrivateMessage.objects.get(pk=request.GET['id'])
         message.is_read = True
         message.save()
         return HttpResponse(status=200)
 
+
+class ProfileDetailsView(LoginRequiredMixin, View):
+    def get(self, request, id):
+        user_d = User.objects.get(pk=id)
+        profile = Profile.objects.get(user=user_d)
+        ctx = {'profile': profile,
+               'user_d': user_d}
+        return render(request, 'twitter_app/profile_details.html', ctx)

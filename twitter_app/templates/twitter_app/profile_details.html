@@ -1,0 +1,25 @@
+{% extends 'twitter_app/index.html' %}
+{% load widget_tweaks %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container text-center col-4">
+
+  <div class="card" style="width:400px">
+    <div class="card-body">
+      <h4 class="card-title">{{ user_d.username }}</h4>
+      <h6 class="card-title">Bio</h6>
+      <p class="card-text">{{ profile.bio }}</p>
+      <h6 class="card-title">Location</h6>
+      <p class="card-text">{{ profile.location }}</p>
+      <h6 class="card-title">Birth date</h6>
+      <p class="card-text">{{ profile.birth_date }}</p>
+      <form action="prv_msg" method="get" style="display:none">
+          <input name="recipient" value="{{ user_d.pk }}">
+      </form>
+      <button type="submit" class="btn btn-primary">Send Private Message</button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
